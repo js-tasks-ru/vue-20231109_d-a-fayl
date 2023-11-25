@@ -1,6 +1,7 @@
+
 import { createApp } from './vendor/vue.esm-browser.js';
 
-// From https://jsonplaceholder.typicode.com/comments
+
 const emails = [
   'Eliseo@gardner.biz',
   'Jayne_Kuhic@sydney.com',
@@ -29,6 +30,7 @@ const emails = [
   'Isaias_Kuhic@jarrett.net',
 ];
 
+
 createApp({
   data() {
     return {
@@ -46,3 +48,4 @@ createApp({
     },
   },
 }).mount('#app');
+
