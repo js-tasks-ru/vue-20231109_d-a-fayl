@@ -1,4 +1,6 @@
-import { createApp, defineComponent } from './vendor/vue.esm-browser.js';
+
+import { createApp } from './vendor/vue.esm-browser.js';
+
 
 const emails = [
   'Eliseo@gardner.biz',
@@ -28,22 +30,22 @@ const emails = [
   'Isaias_Kuhic@jarrett.net',
 ];
 
-const App = defineComponent({
-  name: 'App',
-  emails,
+
+createApp({
   data() {
     return {
-      searchValue: '',
+      emails,
+      filter: '',
     };
   },
+
   computed: {
     markedEmails() {
-      return this.$options.emails.map((email) => ({
+      return this.emails.map((email) => ({
         email,
-        marked: this.searchValue && email.includes(this.searchValue),
+        marked: this.filter && email.includes(this.filter),
       }));
     },
   },
-});
+}).mount('#app');
 
-const vm = createApp(App).mount('#app');
