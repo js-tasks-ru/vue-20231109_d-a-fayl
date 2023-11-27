@@ -10,10 +10,10 @@ export default defineComponent({
   },
   emits: ['update:count'],
   methods: {
-    incrementCount(value) {
-      this.$emit('update:count', ++value);
+    incrementCount() {
+      this.$emit('update:count', this.count + 1);
     },
   },
 
-  template: `<button :value="count" type="button" @click='incrementCount($event.target.value)'>{{count}}</button>`,
+  template: `<button type="button" @click='incrementCount'>{{count}}</button>`,
 });
