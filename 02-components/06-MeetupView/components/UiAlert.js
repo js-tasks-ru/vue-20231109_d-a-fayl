@@ -6,7 +6,7 @@ export default defineComponent({
   props: {
     text: {
       type: String,
-      default: 'No data...',
+      default: 'Программа пока пуста...',
     },
   },
 
