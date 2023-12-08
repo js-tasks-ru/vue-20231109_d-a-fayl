@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import UiContainer from '../components/UiContainer.vue';
+import UiContainer from '../components/UiContainer';
 
 export default {
   name: 'PageIndex',
