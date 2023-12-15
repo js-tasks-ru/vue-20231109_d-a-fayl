@@ -1,5 +1,5 @@
 <template>
-  <component :is="tag" class="button" :class="`button_${variant} ${isBlock}`" :type="type">
+  <component :is="tag" class="button" :class="`button_${variant} ${isBlock}`" :type="btnType">
     <slot></slot>
   </component>
 </template>
@@ -19,16 +19,19 @@ export default {
     block: {
       type: Boolean,
     },
+    type: {
+      type: String,
+    },
   },
   computed: {
     isBlock() {
       return this.block ? 'button_block' : '';
     },
-    type() {
-      if (this.tag === 'button' && !this.$attrs.type) {
+    btnType() {
+      if (this.tag === 'button' && !this.type) {
         return 'button';
       } else {
-        return this.$attrs.type;
+        return this.type;
       }
     },
   },
