@@ -21,7 +21,7 @@
       }"
       v-bind="$attrs"
       :value="modelValue"
-      @[checkLazyModifier()]="$emit('update:modelValue', $event.target.value)"
+      @[checkLazyModifier]="$emit('update:modelValue', $event.target.value)"
     />
 
     <div class="input-group__icon" v-if="$slots['right-icon']">
@@ -45,7 +45,11 @@ export default {
       type: Boolean,
     },
     modelValue: {
-      type: [String],
+      type: [String, Number],
+    },
+    modelModifiers: {
+      type: Object,
+      default: () => ({}),
     },
   },
   computed: {
@@ -56,21 +60,18 @@ export default {
         return 'input';
       }
     },
-  },
-  methods: {
-    focus() {
-      this.$refs.input.focus();
-    },
     checkLazyModifier() {
-      if (this.$attrs.modelModifiers?.lazy) {
+      if (this.modelModifiers.lazy) {
         return 'change';
       } else {
         return 'input';
       }
     },
   },
-  mounted() {
-    console.log(this.$attrs);
+  methods: {
+    focus() {
+      this.$refs.input.focus();
+    },
   },
 };
 </script>
