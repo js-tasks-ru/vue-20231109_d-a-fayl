@@ -17,7 +17,7 @@
         <UiFormGroup label="Изображение">
           <ui-image-uploader
             name="image"
-            :preview="imageToUpload?.src || ''"
+            :preview="localMeetup.image?.src || ''"
             @select="imageToUpload = $event"
             @remove="imageToUpload = null"
           />
@@ -81,7 +81,6 @@ export default {
   data() {
     return {
       localMeetup: klona(this.meetup),
-      agendaItem: createAgendaItem(),
       imageToUpload: null,
     };
   },
@@ -99,18 +98,19 @@ export default {
   emits: ['submit', 'cancel'],
   methods: {
     addAgendaItem() {
+      const agendaItem = createAgendaItem();
+
       if (this.localMeetup.agenda.length) {
         const lastIndex = this.localMeetup.agenda.length - 1;
         const endsAt = this.localMeetup.agenda[lastIndex].endsAt;
-        this.agendaItem.startsAt = endsAt;
-        this.localMeetup.agenda.push(this.agendaItem);
+        agendaItem.startsAt = endsAt;
+        this.localMeetup.agenda.push(agendaItem);
       } else {
-        this.localMeetup.agenda.push(this.agendaItem);
+        this.localMeetup.agenda.push(agendaItem);
       }
     },
     submit() {
       if (this.imageToUpload) {
-        console.log(this.imageToUpload?.src);
         this.localMeetup.image = this.imageToUpload;
       }
       this.$emit('submit', klona(this.localMeetup));
