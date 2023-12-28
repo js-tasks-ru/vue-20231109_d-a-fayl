@@ -1,40 +1,3 @@
-<template>
-  <div class="panes">
-    <!--  Pane 0 -->
-    <div class="pane">
-      <div class="pane__content">
-        <!-- Определяем, какой именно слот рендерить по массиву порядка панелей -->
-        <slot :name="`pane-${panes[0]}`" />
-      </div>
-      <div class="pane__controls">
-        <!-- Скрываем кнопку классом pane__disabled-button -->
-        <UiButton class="pane__disabled-button" variant="secondary" block @click="up(0)"> Up </UiButton>
-        <UiButton variant="danger" block @click="down(0)"> Down </UiButton>
-      </div>
-    </div>
-    <!--  Pane 1 -->
-    <div class="pane">
-      <div class="pane__content">
-        <slot :name="`pane-${panes[1]}`" />
-      </div>
-      <div class="pane__controls">
-        <UiButton variant="secondary" block @click="up(1)"> Up </UiButton>
-        <UiButton variant="danger" block @click="down(1)"> Down </UiButton>
-      </div>
-    </div>
-    <!--  Pane 2 -->
-    <div class="pane">
-      <div class="pane__content">
-        <slot :name="`pane-${panes[2]}`" />
-      </div>
-      <div class="pane__controls">
-        <UiButton variant="secondary" block @click="up(2)"> Up </UiButton>
-        <UiButton class="pane__disabled-button" variant="danger" block @click="down(2)"> Down </UiButton>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="jsx">
 // Предлагается решать задачу с использованием JSX, но вы можете использовать и чистые рендер-функции
 
@@ -43,10 +6,6 @@ import UiButton from './UiButton.vue';
 export default {
   name: 'UiPanes',
 
-  components: {
-    UiButton,
-  },
-
   data() {
     return {
       /**
@@ -54,8 +13,7 @@ export default {
        * [0, 1, 2]
        * @type {number[]|null}
        */
-      panes: [0, 1, 2],
-      // Сейчас здесь массив ровно из трёх элементов, но решение должно быть универсальным для любого количества узлов
+      panes: null,
     };
   },
 
@@ -81,6 +39,44 @@ export default {
       this.panes[i] = this.panes[i + 1];
       this.panes[i + 1] = temp;
     },
+  },
+
+  render() {
+    // Получаем массив переданных узлов (vnodes)
+    const panesVnodes = this.$slots.default?.();
+
+    // При первом рендеринге генерируем начальный массив с порядком панелей
+    if (!this.panes && panesVnodes) {
+      this.panes = Array.from(Array(panesVnodes.length), (_, i) => i);
+    }
+
+    return (
+      <div class="panes">
+        {this.panes?.map((pane, index) => (
+          <div key={pane} class="pane">
+            <div class="pane__content">{panesVnodes[pane]}</div>
+            <div class="pane__controls">
+              <UiButton
+                class={{ 'pane__disabled-button': index === 0 }}
+                variant="secondary"
+                block
+                onClick={() => this.up(index)}
+              >
+                Up
+              </UiButton>
+              <UiButton
+                class={{ 'pane__disabled-button': index === this.panes.length - 1 }}
+                variant="danger"
+                block
+                onClick={() => this.down(index)}
+              >
+                Down
+              </UiButton>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
   },
 };
 </script>
