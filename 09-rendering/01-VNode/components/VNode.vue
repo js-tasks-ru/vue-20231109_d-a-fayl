@@ -3,7 +3,9 @@ import { isVNode } from 'vue';
 
 export default {
   name: 'VNode',
-
+  render() {
+    return this.vnode;
+  },
   props: {
     vnode: {
       type: [Object, Array],
