@@ -12,9 +12,16 @@ export function debouncedRef(source, wait) {
 
   watch(
     source,
-    debounce((source) => {
-      debounced.value = source;
+    debounce((newValue) => {
+      debounced.value = newValue;
     }, wait),
   );
+
+  /* watch(source, (newValue) => {
+    setTimeout(() => {
+      debounced.value = newValue;
+    }, wait);
+  }); */
+
   return debounced;
 }
