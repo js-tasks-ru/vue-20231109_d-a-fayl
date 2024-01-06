@@ -17,12 +17,11 @@ export function debouncedRef(source, wait) {
     }, wait),
   );
 
-  // доп решение через setTimeout
-  watch(source, (newValue) => {
+  /* watch(source, (newValue) => {
     setTimeout(() => {
       debounced.value = newValue;
     }, wait);
-  });
+  }); */
 
   return debounced;
 }
