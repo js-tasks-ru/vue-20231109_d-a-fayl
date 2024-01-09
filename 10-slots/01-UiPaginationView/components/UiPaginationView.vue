@@ -1,6 +1,6 @@
 <template>
-  <div class="pagination-container">
-    <!-- Контент страницы -->
+  <div class="pagination-container" v-for="item in itemsChunk">
+    <slot :item="item"></slot>
   </div>
 </template>
 
@@ -24,6 +24,16 @@ export default {
     items: {
       type: Array,
       required: true,
+    },
+  },
+  computed: {
+    itemsChunk() {
+      const res = [];
+      for (let i = 0; i < this.items.length; i += this.perPage) {
+        const chunk = this.items.slice(i, i + this.perPage);
+        res.push(chunk);
+      }
+      return res[this.page - 1];
     },
   },
 };
