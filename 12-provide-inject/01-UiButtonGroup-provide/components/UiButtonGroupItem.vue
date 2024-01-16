@@ -1,14 +1,34 @@
 <template>
-  <button class="button-group__button button-group__button_active" type="button" aria-selected="false">Button</button>
+  <button
+    @click="updateParentModel"
+    class="button-group__button"
+    :class="{ 'button-group__button_active': isActiveClass }"
+    type="button"
+    aria-selected="false"
+  >
+    <slot></slot>
+  </button>
 </template>
 
 <script>
 export default {
   name: 'UiButtonGroupItem',
 
+  inject: ['parentModelValue', 'updateParentModelValue'],
+
   props: {
     value: {
       required: true,
+    },
+  },
+  computed: {
+    isActiveClass() {
+      return this.value === this.parentModelValue.value;
+    },
+  },
+  methods: {
+    updateParentModel() {
+      this.updateParentModelValue(this.value);
     },
   },
 };
